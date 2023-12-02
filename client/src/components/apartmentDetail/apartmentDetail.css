@@ -1,0 +1,75 @@
+.apartment--detail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.apartment--detail .title-header {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.title-header .apart-title {
+  font-size: 2rem;
+  color: rgb(19, 19, 68);
+}
+.apartment--detail .type {
+  padding: 5px 1rem;
+  border-radius: 50px;
+  border: 1px solid gray;
+}
+.apartment--detail .apart-image {
+  border-radius: 20px;
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+}
+.apartment--detail .apart-avail {
+  width: 150px;
+  text-align: center;
+  background: gray;
+  padding: 8px 1rem;
+
+  color: #fff;
+  border-radius: 10px;
+}
+.apartment--detail .apart-rent {
+  display: flex;
+  flex-direction: column;
+}
+.apart-rent .rent-slogan {
+  color: gray;
+}
+.apart-rent .rent-mount {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.apart-detail {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: rgb(243, 243, 243);
+  width: 50%;
+  justify-content: space-between;
+  padding: 10px 1rem;
+  border-radius: 20px;
+}
+.apart-detail span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.apart-amentites,
+.apart-services {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.apart-amentites span,
+.apart-services span {
+  border: 1px solid gray;
+  padding: 8px 1rem;
+  border-radius: 30px;
+  font-size: 14px;
+}
