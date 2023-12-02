@@ -1,0 +1,46 @@
+.form--container {
+  display: flex;
+  height: 91vh;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    to bottom,
+    rgba(76, 201, 240, 0) 0%,
+    rgba(67, 97, 238, 0.2) 100%
+  );
+}
+.form--container .ant-card-head-title {
+  padding: 10px;
+  font-size: 2rem;
+  text-align: center;
+  color: #1677ff;
+  text-transform: uppercase;
+}
+.form--container .form {
+  padding: 3rem 2rem 2rem 2rem;
+}
+.form--container .ant-card-body {
+  padding: 0;
+}
+.form--container .form-btn {
+  width: 100%;
+}
+.form--container .ant-input {
+  padding: 12px;
+  border: none;
+  background: rgba(212, 212, 212, 0.2);
+}
+.form--container .ant-input-affix-wrapper {
+  padding: 12px;
+  border: none;
+  background: rgba(212, 212, 212, 0.2);
+}
+.form--container .ant-input-affix-wrapper .ant-input {
+  background: transparent;
+}
+.form--container .btn-google {
+  color: #aaaaaa;
+}
+.form--container .btn-rest {
+  margin-top: 1rem;
+}
