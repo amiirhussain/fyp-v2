@@ -3,7 +3,7 @@ import { Button, Form, Input, Card, message } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import './auth.css';
 
-const Login = () => {
+const Login = ({ setUserLoggedIn }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,8 +27,8 @@ const Login = () => {
 
       if (data.user) {
         localStorage.setItem('token', data.user);
-        console.log(data.user);
         navigate('/dashboard');
+        setUserLoggedIn(true);
       } else {
         message.error('Please check your email and password.');
       }
