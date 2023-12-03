@@ -1,0 +1,133 @@
+.list--container {
+  margin-top: 2rem;
+}
+.list--container .apartment--list {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  position: relative;
+}
+.list--container .apartment-action {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  gap: 20px;
+}
+.list--container .apartment-action .delte-btn {
+  color: red;
+}
+.list--container .apartment--list .list--image img {
+  width: 350px;
+  height: 230px;
+  object-fit: cover;
+  opacity: 0.8;
+}
+.list--container .list--image img {
+  border-radius: 5px;
+}
+.list--container .list-detail {
+  width: 500px;
+  /* padding: 0 20px; */
+  text-align: left;
+}
+.list--container .list-title {
+  font-size: 1.4rem;
+  color: #3c7cd4;
+  /* height: 55px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 10px; */
+}
+.list--container .list--image img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+.list--container .list-status {
+  text-align: center;
+  color: #fff;
+  text-transform: uppercase;
+  border-radius: 5px;
+  padding: 2px 10px;
+  font-size: 16px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.list--container .list-status-true {
+  background: #1677ff;
+}
+.list--container .list-status-false {
+  background: red;
+}
+.list--container .list-type {
+  margin-top: 10px;
+  color: gray;
+}
+.list--container .apartment-address {
+  margin-top: 10px;
+  background: #e6f7ff;
+  border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  gap: 10px;
+  color: gray;
+  padding: 8px 15px;
+}
+.list--container .apartment-address .icon {
+  color: #1677ff;
+  font-size: 18px;
+}
+.list--container .apartment-detail {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.list--container .apartment-detail span {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.list--container .apartment-detail span .icon {
+  font-size: 18px;
+  color: #7fa4d9;
+}
+.list--container .divider {
+  border: 1px solid rgb(232, 232, 232);
+  margin-top: 15px;
+}
+
+.list--container .apartment-about {
+  display: flex;
+  align-items: center;
+  padding: 20px 0;
+  justify-content: space-between;
+}
+.list--container .apartment-rent {
+  display: flex;
+  flex-direction: column;
+}
+.list--container .rent--slogan {
+  font-size: 12px;
+  font-weight: 500;
+  color: gray;
+}
+.list--container .rent-mount {
+  font-weight: bold;
+  font-size: 1rem;
+  color: #7fa4d9;
+}
+.list--container .rent-mount span {
+  font-size: 10px;
+}
+
+.list--action,
+button {
+  text-transform: uppercase;
+}
