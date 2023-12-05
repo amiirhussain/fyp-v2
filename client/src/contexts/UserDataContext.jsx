@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
+const UserDataContext = createContext();
 
-const useGetUserData = ({ UserEndpoint }) => {
+export const UserDataProvider = ({ children }) => {
   const isAuthenticated = localStorage.getItem('token');
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -8,7 +9,7 @@ const useGetUserData = ({ UserEndpoint }) => {
   useEffect(() => {
     async function getUserData() {
       try {
-        const res = await fetch(`http://localhost:1337/${UserEndpoint}`, {
+        const res = await fetch(`http://localhost:1337/user/single-user`, {
           method: 'GET',
           headers: {
             'Content-type': 'application/json',
@@ -21,6 +22,7 @@ const useGetUserData = ({ UserEndpoint }) => {
         if (res.status === 200) {
           const data = await res.json();
           setUserData(data);
+          setLoading(false);
         }
       } catch (error) {
         console.log('Error:', error.message);
@@ -30,7 +32,17 @@ const useGetUserData = ({ UserEndpoint }) => {
     getUserData();
   }, [isAuthenticated]);
 
-  return { userData, loading };
+  return (
+    <UserDataContext.Provider value={{ userData, loading }}>
+      {children}
+    </UserDataContext.Provider>
+  );
 };
 
-export default useGetUserData;
+export const useUserData = () => {
+  const context = useContext(UserDataContext);
+  if (!context) {
+    throw new Error('useUserData must be used within a UserDataProvider');
+  }
+  return context;
+};
