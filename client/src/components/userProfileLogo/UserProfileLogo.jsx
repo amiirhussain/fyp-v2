@@ -1,11 +1,9 @@
 import React from 'react';
-import './userPrfoileLogo.css';
+import './userProfileLogo.css';
 import { useUserData } from '../../contexts/UserDataContext';
 
 const UserProfileLogo = () => {
   const { userData, loading } = useUserData();
-
-  console.log(userData);
   return (
     <>
       {loading ? (

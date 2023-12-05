@@ -9,6 +9,7 @@ import AddApartment from '../../components/addApartment/AddApartment';
 import { ApartmentProvider } from '../../contexts/ApartContext';
 import UserProfileLogo from '../../components/userProfileLogo/UserProfileLogo';
 import { UserDataProvider } from '../../contexts/UserDataContext';
+import UserProfile from '../../components/userProfile/UserProfile';
 
 const items = [
   {
@@ -112,12 +113,19 @@ const Dashboard = ({ setUserLoggedIn }) => {
           >
             {selectedMenuItem === 'dashboard' && (
               <>
-                <ApartmentProvider>
+                {/* <ApartmentProvider>
                   <AddApartment />
-                </ApartmentProvider>
+                </ApartmentProvider> */}
+                <UserDataProvider>
+                  <UserProfile />
+                </UserDataProvider>
               </>
             )}
-            {/* {selectedMenuItem === 'profile' && <UserProfile />} */}
+            {selectedMenuItem === 'profile' && (
+              <UserDataProvider>
+                <UserProfile />
+              </UserDataProvider>
+            )}
 
             {selectedMenuItem === 'analytics' && (
               <Result

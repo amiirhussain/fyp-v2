@@ -32,8 +32,73 @@ export const UserDataProvider = ({ children }) => {
     getUserData();
   }, [isAuthenticated]);
 
+  const updateUser = async (userId, newData) => {
+    try {
+      const res = await fetch(`http://localhost:1337/user/${userId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json',
+          'x-access-token': isAuthenticated,
+        },
+        body: JSON.stringify(newData),
+      });
+
+      if (res.status === 404) {
+        console.error('User not found');
+        return null;
+      } else if (res.status === 200) {
+        const updatedUser = await res.json();
+        setUserData(updatedUser);
+        return updatedUser;
+      } else {
+        const errorData = await res.json();
+        console.error('Error updating user:', errorData.message);
+        return null;
+      }
+    } catch (error) {
+      console.log('Error:', error.message);
+      return null;
+    }
+  };
+
+  const resetPassword = async (userId, newPassword) => {
+    try {
+      const res = await fetch(
+        `http://localhost:1337/user/reset-password/${userId}`,
+        {
+          method: 'PUT',
+          headers: {
+            'Content-type': 'application/json',
+            'x-access-token': isAuthenticated,
+          },
+          body: JSON.stringify({
+            password: newPassword,
+          }),
+        },
+      );
+
+      if (res.status === 404) {
+        console.error('User not found');
+        return null;
+      } else if (res.status === 200) {
+        const updatedUser = await res.json();
+        setUserData(updatedUser);
+        return updatedUser;
+      } else {
+        const errorData = await res.json();
+        console.error('Password reset failed:', errorData.message);
+        return null;
+      }
+    } catch (error) {
+      console.error('Error:', error.message);
+      return null;
+    }
+  };
+
   return (
-    <UserDataContext.Provider value={{ userData, loading }}>
+    <UserDataContext.Provider
+      value={{ userData, loading, updateUser, resetPassword }}
+    >
       {children}
     </UserDataContext.Provider>
   );

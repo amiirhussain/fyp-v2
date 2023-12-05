@@ -1,0 +1,155 @@
+.user--section {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+.user--profile {
+  background: rgb(241, 241, 241);
+  display: flex;
+  justify-content: space-between;
+  padding: 30px;
+  border-radius: 8px;
+  position: relative;
+}
+.user--details {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+.edit {
+  position: absolute;
+  top: 15px;
+  right: 30px;
+}
+.edit .icon {
+  color: rgb(201, 201, 201);
+  font-size: 22px;
+  cursor: pointer;
+}
+.user--image {
+  width: 120px;
+  height: 150px;
+  object-fit: cover;
+  background: #fff;
+  border-radius: 10px;
+}
+
+.user--info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+}
+.reset--password {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.reset--password .icon {
+  font-size: 18px;
+  font-weight: 500;
+}
+.user-contact {
+  display: flex;
+}
+.user--contact .row {
+  margin-top: 1.5rem;
+  display: flex;
+  gap: 40px;
+}
+
+.row span {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: gray;
+}
+.row span .icon {
+  color: #1677ff;
+}
+
+.user--row {
+  display: flex;
+  /* align-items: center; */
+  gap: 20px;
+}
+.personal--detail {
+  /* height: 300px; */
+  background: rgb(241, 241, 241);
+  border-radius: 8px;
+  width: 40%;
+  padding: 20px 2rem;
+}
+.preferences--detail {
+  /* height: 300px; */
+  background: rgb(241, 241, 241);
+  border-radius: 8px;
+  width: 60%;
+  padding: 20px 2rem;
+}
+.user--header {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 2px solid gainsboro;
+  padding: 10px 0;
+}
+
+.user--header .icon {
+  color: rgb(201, 201, 201);
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* personal detail */
+.personal--info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+.info,
+.preferences {
+  display: flex;
+  justify-content: space-between;
+}
+.preferences {
+  margin-top: 10px;
+}
+.info-col,
+.pref-col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 15px;
+}
+.personal--info h4,
+.preferences--detail h4 {
+  color: rgb(69, 69, 69);
+  font-weight: 600;
+}
+.personal--detail span,
+.preferences--detail span {
+  color: gray;
+}
+.info-col div,
+.address,
+.pref-col div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.date {
+  padding: 9px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  font-size: 14px;
+  background-color: #fff;
+  color: #333;
+}
+
+.date:focus {
+  border-color: #007bff;
+}
