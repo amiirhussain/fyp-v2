@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import useGetUserData from '../../hooks/useGetUserData';
 import { Link, useNavigate } from 'react-router-dom';
 import { Layout, theme, Button, Dropdown, message, Result } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
-import { EditOutlined, LogoutOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import SideMenu from '../../components/sideMenu/SideMenu';
 import './dashboard.css';
 import AddApartment from '../../components/addApartment/AddApartment';
-import { ApartmentProvider } from '../../context/ApartContext';
+import { ApartmentProvider } from '../../contexts/ApartContext';
+import UserProfileLogo from '../../components/userProfileLogo/UserProfileLogo';
+import { UserDataProvider } from '../../contexts/UserDataContext';
 
 const items = [
   {
@@ -28,9 +29,6 @@ const items = [
 ];
 
 const Dashboard = ({ setUserLoggedIn }) => {
-  const { userData, loading } = useGetUserData({
-    UserEndpoint: 'user/single-user',
-  });
   const navigate = useNavigate();
   const [selectedMenuItem, setSelectedMenuItem] = useState('dashboard');
   const isAuthenticated = localStorage.getItem('token');
@@ -81,13 +79,10 @@ const Dashboard = ({ setUserLoggedIn }) => {
           }}
         >
           <h2 style={{ color: 'gray' }}>Dashboard</h2>
-
           <div className="top-user-header">
-            <div className="logged--user">
-              <img src={userData.profileImage} alt="" />
-              <h3>{userData.fullName}</h3>
-            </div>
-
+            <UserDataProvider>
+              <UserProfileLogo />
+            </UserDataProvider>
             <div className="header--divider"></div>
             <Dropdown
               menu={{
@@ -119,9 +114,7 @@ const Dashboard = ({ setUserLoggedIn }) => {
               <>
                 <ApartmentProvider>
                   <AddApartment />
-                  {/* Other components that need access to apartment context */}
                 </ApartmentProvider>
-                {/* <AddApartment /> */}
               </>
             )}
             {/* {selectedMenuItem === 'profile' && <UserProfile />} */}

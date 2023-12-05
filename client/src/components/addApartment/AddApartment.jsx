@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Modal, Button, Form, Input, Select, Checkbox, message } from 'antd';
-import { ApartmentContext } from '../../context/ApartContext';
+import { ApartmentContext } from '../../contexts/ApartContext';
 import ApartmentList from '../apartmentList/ApartmentList';
 
 const { Option } = Select;
@@ -26,14 +26,13 @@ const AddApartment = () => {
       message.error(error);
     }
 
-    // Reset form when closing modal or switching edit mode
     if (!open || !editMode) {
       form.resetFields();
     }
   }, [open, editMode, error]);
 
   const handleSuccess = () => {
-    console.log('Handling success'); // Check if this log is displayed in the console
+    console.log('Handling success');
     setOpen(false);
     message.success(
       editMode
@@ -69,8 +68,6 @@ const AddApartment = () => {
     try {
       deleteApartment(apartmentId);
       handleSuccess();
-      // if (window.confirm('Are you sure you want to delete this apartment?')) {
-      // }
     } catch (error) {
       console.error('Error deleting apartment:', error);
     }
@@ -104,11 +101,6 @@ const AddApartment = () => {
     form.resetFields();
   };
 
-  const handleCancel = () => {
-    setOpen(false);
-    form.resetFields();
-  };
-
   return (
     <div>
       <div
@@ -139,15 +131,8 @@ const AddApartment = () => {
       >
         <Form
           form={form}
-          // labelCol={{
-          //   span: 3,
-          // }}
-          // wrapperCol={{
-          //   span: 20,
-          // }}
           style={{ marginTop: '2rem' }}
           name="register-form"
-          // onFinish={editMode ? handleEditSubmit : handleSubmit}
           onFinish={(values) =>
             editMode ? handleEditSubmit(values) : handleSubmit(values)
           }
@@ -158,7 +143,6 @@ const AddApartment = () => {
             style={{
               display: 'flex ',
               gap: '10px',
-              // justifyContent: 'space-between',
             }}
           >
             <Form.Item
