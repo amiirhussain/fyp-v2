@@ -113,12 +113,9 @@ const Dashboard = ({ setUserLoggedIn }) => {
           >
             {selectedMenuItem === 'dashboard' && (
               <>
-                {/* <ApartmentProvider>
+                <ApartmentProvider>
                   <AddApartment />
-                </ApartmentProvider> */}
-                <UserDataProvider>
-                  <UserProfile />
-                </UserDataProvider>
+                </ApartmentProvider>
               </>
             )}
             {selectedMenuItem === 'profile' && (
