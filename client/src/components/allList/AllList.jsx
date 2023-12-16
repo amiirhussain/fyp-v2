@@ -7,7 +7,9 @@ import { Button, Space } from 'antd';
 import { Link } from 'react-router-dom';
 
 const AllList = () => {
-  const { apartmentData } = useFetch({ UrlEndpoint: 'apartment/get-all' });
+  const { fetchData: apartmentData } = useFetch({
+    UrlEndpoint: 'apartment/get-all',
+  });
 
   console.log(apartmentData);
   return (

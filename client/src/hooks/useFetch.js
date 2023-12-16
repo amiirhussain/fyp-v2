@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 const useFetch = ({ UrlEndpoint }) => {
-  const [apartmentData, setApartmentData] = useState([]);
+  const [fetchData, setFetchData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -11,12 +11,13 @@ const useFetch = ({ UrlEndpoint }) => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            'x-access-token': localStorage.getItem('token'),
           },
         });
 
         const data = await res.json();
         if (res.status === 200) {
-          setApartmentData(data);
+          setFetchData(data);
           setLoading(false);
         }
       } catch (error) {
@@ -28,7 +29,7 @@ const useFetch = ({ UrlEndpoint }) => {
     fetchData();
   }, [UrlEndpoint]);
 
-  return { apartmentData, loading };
+  return { fetchData, loading };
 };
 
 export default useFetch;
