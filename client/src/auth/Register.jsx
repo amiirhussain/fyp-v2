@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Form, Input, Card, message } from 'antd';
 import './auth.css';
 import { useNavigate, Link } from 'react-router-dom';
+import Navbar from '../components/header/Header';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -64,149 +65,152 @@ const Register = () => {
   };
 
   return (
-    <div className="form--container">
-      <Card
-        title="Register"
-        bordered={false}
-        style={{
-          width: 500,
-        }}
-      >
-        <Form
-          layout="vertical"
-          className="form"
-          name="register-form"
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
+    <>
+      <Navbar />
+      <div className="form--container">
+        <Card
+          title="Register"
+          bordered={false}
+          style={{
+            width: 500,
+          }}
         >
-          <div
-            style={{
-              display: 'flex ',
-              gap: '10px',
-              justifyContent: 'space-between',
-            }}
+          <Form
+            layout="vertical"
+            className="form"
+            name="register-form"
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
           >
+            <div
+              style={{
+                display: 'flex ',
+                gap: '10px',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Form.Item
+                name="userName"
+                label="Username"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your User name',
+                  },
+                  {
+                    pattern: userNameValidator,
+                    message:
+                      'Invalid username format (3 to 20 characters, alphanumeric, underscores, hyphens)',
+                  },
+                ]}
+              >
+                <Input size="large" placeholder="User name" />
+              </Form.Item>
+              <Form.Item
+                name="fullName"
+                label="Full Name"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your Full name!',
+                  },
+                  {
+                    pattern: fullNameValidator,
+                    message:
+                      'Invalid full name format (2 to 50 characters, alphabets, spaces, hyphens, apostrophes)',
+                  },
+                ]}
+              >
+                <Input size="large" placeholder="Full name" />
+              </Form.Item>
+            </div>
+
             <Form.Item
-              name="userName"
-              label="Username"
+              name="email"
+              label="Email"
               rules={[
                 {
-                  required: true,
-                  message: 'Please input your User name',
+                  type: 'email',
+                  message: 'The input is not a valid E-mail!',
                 },
                 {
-                  pattern: userNameValidator,
-                  message:
-                    'Invalid username format (3 to 20 characters, alphanumeric, underscores, hyphens)',
+                  required: true,
+                  message: 'Please input your E-mail!',
                 },
               ]}
             >
-              <Input size="large" placeholder="User name" />
+              <Input size="large" placeholder="Email" />
             </Form.Item>
-            <Form.Item
-              name="fullName"
-              label="Full Name"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Full name!',
-                },
-                {
-                  pattern: fullNameValidator,
-                  message:
-                    'Invalid full name format (2 to 50 characters, alphabets, spaces, hyphens, apostrophes)',
-                },
-              ]}
+            {emailError && (
+              <p style={{ color: 'red', marginBottom: '10px' }}>{emailError}</p>
+            )}
+
+            <div
+              style={{
+                display: 'flex ',
+                justifyContent: 'space-between',
+                gap: '20px',
+              }}
             >
-              <Input size="large" placeholder="Full name" />
+              <Form.Item
+                name="password"
+                label="Password"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your password!',
+                  },
+                ]}
+              >
+                <Input.Password size="large" placeholder="Password" />
+              </Form.Item>
+              <Form.Item
+                name="confirmPassword"
+                label="Confirm Password"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input your password!',
+                  },
+                ]}
+              >
+                <Input.Password size="large" placeholder="Confirm Password" />
+              </Form.Item>
+            </div>
+
+            {passwordError && (
+              <p style={{ color: 'red', marginBottom: '10px' }}>
+                {passwordError}
+              </p>
+            )}
+
+            <Form.Item style={{ marginTop: '2rem' }}>
+              <Button
+                size="large"
+                className="form-btn"
+                type="primary"
+                htmlType="submit"
+              >
+                Submit
+              </Button>
             </Form.Item>
-          </div>
-
-          <Form.Item
-            name="email"
-            label="Email"
-            rules={[
-              {
-                type: 'email',
-                message: 'The input is not a valid E-mail!',
-              },
-              {
-                required: true,
-                message: 'Please input your E-mail!',
-              },
-            ]}
-          >
-            <Input size="large" placeholder="Email" />
-          </Form.Item>
-          {emailError && (
-            <p style={{ color: 'red', marginBottom: '10px' }}>{emailError}</p>
-          )}
-
-          <div
-            style={{
-              display: 'flex ',
-              justifyContent: 'space-between',
-              gap: '20px',
-            }}
-          >
-            <Form.Item
-              name="password"
-              label="Password"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your password!',
-                },
-              ]}
-            >
-              <Input.Password size="large" placeholder="Password" />
-            </Form.Item>
-            <Form.Item
-              name="confirmPassword"
-              label="Confirm Password"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your password!',
-                },
-              ]}
-            >
-              <Input.Password size="large" placeholder="Confirm Password" />
-            </Form.Item>
-          </div>
-
-          {passwordError && (
-            <p style={{ color: 'red', marginBottom: '10px' }}>
-              {passwordError}
-            </p>
-          )}
-
-          <Form.Item style={{ marginTop: '2rem' }}>
+            {/* <Form.Item>
             <Button
-              size="large"
-              className="form-btn"
-              type="primary"
-              htmlType="submit"
+            size="large"
+            className="form-btn btn-google"
+            htmlType="submit"
             >
-              Submit
-            </Button>
-          </Form.Item>
-          {/* <Form.Item>
-            <Button
-              size="large"
-              className="form-btn btn-google"
-              htmlType="submit"
-            >
-              Signup with Google
+            Signup with Google
             </Button>
           </Form.Item> */}
-          <p style={{ textAlign: 'center' }}>
-            Already have an account? <Link to="/login"> Login Now </Link>
-          </p>
-        </Form>
-      </Card>
-    </div>
+            <p style={{ textAlign: 'center' }}>
+              Already have an account? <Link to="/login"> Login Now </Link>
+            </p>
+          </Form>
+        </Card>
+      </div>
+    </>
   );
 };
 

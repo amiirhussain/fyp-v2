@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Form, Input, Card, message } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import './auth.css';
+import Navbar from '../components/header/Header';
 
 const Login = ({ setUserLoggedIn }) => {
   const navigate = useNavigate();
@@ -39,70 +40,73 @@ const Login = ({ setUserLoggedIn }) => {
   };
 
   return (
-    <div className="form--container">
-      <Card title="Login" bordered={false} style={{ width: 500 }}>
-        <Form
-          layout="vertical"
-          className="form"
-          name="login-form"
-          onFinish={onFinish}
-          autoComplete="off"
-        >
-          <Form.Item
-            name="email"
-            label="Email"
-            rules={[
-              {
-                type: 'email',
-                message: 'The input is not a valid E-mail!',
-              },
-              {
-                required: true,
-                message: 'Please input your E-mail!',
-              },
-            ]}
+    <>
+      <Navbar />
+      <div className="form--container">
+        <Card title="Login" bordered={false} style={{ width: 500 }}>
+          <Form
+            layout="vertical"
+            className="form"
+            name="login-form"
+            onFinish={onFinish}
+            autoComplete="off"
           >
-            <Input size="large" placeholder="Email" />
-          </Form.Item>
-
-          <Form.Item
-            name="password"
-            label="Password"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your password!',
-              },
-            ]}
-          >
-            <Input.Password size="large" placeholder="Password" />
-          </Form.Item>
-
-          <Form.Item style={{ marginTop: '2rem' }}>
-            <Button
-              className="form-btn"
-              type="primary"
-              htmlType="submit"
-              size="large"
+            <Form.Item
+              name="email"
+              label="Email"
+              rules={[
+                {
+                  type: 'email',
+                  message: 'The input is not a valid E-mail!',
+                },
+                {
+                  required: true,
+                  message: 'Please input your E-mail!',
+                },
+              ]}
             >
-              Submit
-            </Button>
-          </Form.Item>
-          {/* <Form.Item>
-            <Button
-              size="large"
-              className="form-btn btn-google"
-              htmlType="submit"
+              <Input size="large" placeholder="Email" />
+            </Form.Item>
+
+            <Form.Item
+              name="password"
+              label="Password"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your password!',
+                },
+              ]}
             >
-              Sign in with Google
+              <Input.Password size="large" placeholder="Password" />
+            </Form.Item>
+
+            <Form.Item style={{ marginTop: '2rem' }}>
+              <Button
+                className="form-btn"
+                type="primary"
+                htmlType="submit"
+                size="large"
+              >
+                Submit
+              </Button>
+            </Form.Item>
+            {/* <Form.Item>
+            <Button
+            size="large"
+            className="form-btn btn-google"
+            htmlType="submit"
+            >
+            Sign in with Google
             </Button>
           </Form.Item> */}
-          <p style={{ textAlign: 'center' }}>
-            Don't have an account? <Link to="/register"> Register Now </Link>
-          </p>
-        </Form>
-      </Card>
-    </div>
+            <p style={{ textAlign: 'center' }}>
+              Don't have an account? <Link to="/register"> Register Now </Link>
+            </p>
+          </Form>
+        </Card>
+      </div>
+    </>
   );
 };
 

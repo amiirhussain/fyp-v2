@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Layout, theme, Button, Dropdown, message, Result } from 'antd';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Layout, theme, Button, Dropdown, message } from 'antd';
 const { Header, Content, Footer, Sider } = Layout;
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import SideMenu from '../../components/sideMenu/SideMenu';
 import './dashboard.css';
-import AddApartment from '../../components/addApartment/AddApartment';
-import { ApartmentProvider } from '../../contexts/ApartContext';
 import UserProfileLogo from '../../components/userProfileLogo/UserProfileLogo';
 import { UserDataProvider } from '../../contexts/UserDataContext';
-import UserProfile from '../../components/userProfile/UserProfile';
 
 const items = [
   {
@@ -31,7 +28,10 @@ const items = [
 
 const Dashboard = ({ setUserLoggedIn }) => {
   const navigate = useNavigate();
-  const [selectedMenuItem, setSelectedMenuItem] = useState('dashboard');
+  const [selectedMenuItem, setSelectedMenuItem] = useState(
+    localStorage.getItem('selectedMenuItem') || 'dashboard',
+  );
+
   const isAuthenticated = localStorage.getItem('token');
 
   useEffect(() => {
@@ -44,6 +44,7 @@ const Dashboard = ({ setUserLoggedIn }) => {
 
   const handleMenuClick = (key) => {
     setSelectedMenuItem(key);
+    localStorage.setItem('selectedMenuItem', key);
   };
 
   const {
@@ -111,55 +112,7 @@ const Dashboard = ({ setUserLoggedIn }) => {
               background: colorBgContainer,
             }}
           >
-            {selectedMenuItem === 'dashboard' && (
-              <>
-                <ApartmentProvider>
-                  <AddApartment />
-                </ApartmentProvider>
-              </>
-            )}
-            {selectedMenuItem === 'profile' && (
-              <UserDataProvider>
-                <UserProfile />
-              </UserDataProvider>
-            )}
-
-            {selectedMenuItem === 'analytics' && (
-              <Result
-                status="info"
-                title="Analytics are Coming Soon!"
-                subTitle="We're working hard to bring you awesome features. Stay tuned!"
-                extra={
-                  <Button type="primary" disabled>
-                    Coming Soon
-                  </Button>
-                }
-              />
-            )}
-            {selectedMenuItem === 'chats' && (
-              <Result
-                status="info"
-                title="Chats are Coming Soon!"
-                subTitle="We're working hard to bring you awesome features. Stay tuned!"
-                extra={
-                  <Button type="primary" disabled>
-                    Coming Soon
-                  </Button>
-                }
-              />
-            )}
-            {selectedMenuItem === 'setting' && (
-              <Result
-                status="info"
-                title="Settings are Coming Soon!"
-                subTitle="We're working hard to bring you awesome features. Stay tuned!"
-                extra={
-                  <Button type="primary" disabled>
-                    Coming Soon
-                  </Button>
-                }
-              />
-            )}
+            <Outlet />
           </div>
         </Content>
         <Footer

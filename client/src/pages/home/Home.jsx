@@ -1,13 +1,17 @@
 import React from 'react';
 import Hero from '../../components/hero/Hero';
 import AllList from '../../components/allList/AllList';
+import Navbar from '../../components/header/Header';
 
 const Home = () => {
   return (
-    <div className="home">
-      <Hero />
-      <AllList />
-    </div>
+    <>
+      <Navbar />
+      <div className="home">
+        <Hero />
+        <AllList />
+      </div>
+    </>
   );
 };
 

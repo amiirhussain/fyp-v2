@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
 import {
   HomeOutlined,
@@ -6,6 +7,7 @@ import {
   SettingOutlined,
   UserOutlined,
 } from '@ant-design/icons';
+
 import './sideMenu.css';
 import logoImage from '../../assets/logo.png';
 
@@ -17,33 +19,35 @@ const SideMenu = ({ onMenuClick }) => {
   return (
     <div className="sidebar">
       <div className="logo">
-        <div className="logo-icon">
+        <Link to="/" className="logo-icon">
           <img src={logoImage} alt="" />
-          <h4>Space Seekers</h4>
-        </div>
+          <h4 style={{ textTransform: 'uppercase', letterSpacing: '1px' }}>
+            Space Seekers
+          </h4>
+        </Link>
       </div>
       <Menu
-        onClick={handleClick}
         theme="dark"
         mode="inline"
         className="menu-bar"
-        defaultSelectedKeys={['dashboard']}
+        selectedKeys={[localStorage.getItem('selectedMenuItem') || 'dashboard']}
+        onClick={handleClick}
       >
         <Menu.Item key="dashboard" icon={<HomeOutlined />}>
-          Dashboard
+          <Link to="">Dashboard</Link>
         </Menu.Item>
-
         <Menu.Item key="analytics" icon={<AreaChartOutlined />}>
-          Analytics
+          <Link to="analytics">Analytics</Link>
         </Menu.Item>
         <Menu.Item key="chats" icon={<MessageOutlined />}>
-          Chats
+          <Link to="chats">Chats</Link>
         </Menu.Item>
         <Menu.Item key="profile" icon={<UserOutlined />}>
-          Profile
+          <Link to="profile">Profile</Link>
         </Menu.Item>
+
         <Menu.Item key="setting" icon={<SettingOutlined />}>
-          Setting
+          <Link to="setting">Setting</Link>
         </Menu.Item>
       </Menu>
     </div>

@@ -8,6 +8,7 @@ import logo from '../../assets/logo.png';
 const { Header } = Layout;
 
 const Navbar = () => {
+  const isUserLoggedIn = localStorage.getItem('token');
   return (
     <Header className="header">
       <Row className="nav--bar">
@@ -33,18 +34,24 @@ const Navbar = () => {
           </Menu>
         </Col>
         <Col span={5}>
-          <div className="auth-buttons">
-            <Link to="/login">
-              <Button type="primary" icon={<LoginOutlined />}>
-                Login
-              </Button>
+          {isUserLoggedIn ? (
+            <Link to="/dashboard">
+              <Button>Dashoard</Button>
             </Link>
-            <Link to="/register">
-              <Button type="primary" icon={<LogoutOutlined />}>
-                Register
-              </Button>
-            </Link>
-          </div>
+          ) : (
+            <div className="auth-buttons">
+              <Link to="/login">
+                <Button type="primary" icon={<LoginOutlined />}>
+                  Login
+                </Button>
+              </Link>
+              <Link to="/register">
+                <Button type="primary" icon={<LogoutOutlined />}>
+                  Register
+                </Button>
+              </Link>
+            </div>
+          )}
         </Col>
       </Row>
     </Header>
