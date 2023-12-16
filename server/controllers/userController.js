@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import User from '../models/UserModel.js';
 import bcrypt from 'bcrypt';
 
@@ -83,6 +84,62 @@ export const getAllUsers = async (req, res, next) => {
     const allUsers = await User.find();
     res.status(200).send(allUsers);
   } catch (error) {
+    next(error);
+  }
+};
+
+// Get Profile Completion Progress
+export const getProfileProgress = async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+
+    if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: 'Invalid user ID' });
+    }
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const requiredFields = [
+      'fullName',
+      'userName',
+      'email',
+      'phone',
+      'education',
+      'profileImage',
+      'userType',
+      'bloodGroup',
+      'dob',
+      'gender',
+      'perAddress',
+      'resAddress',
+      'cleanliness',
+      'socialHabits',
+      'workOrStudyHours',
+      'hobbies',
+      'foodPreferences',
+      'personalityTraits',
+      'petPreferences',
+      'sleepHabits',
+      'budget',
+    ];
+
+    const completedFields = requiredFields.reduce((count, field) => {
+      if (user[field]) {
+        count++;
+      }
+      return count;
+    }, 0);
+
+    const completionPercentage =
+      (completedFields / requiredFields.length) * 100;
+
+    res.status(200).json({ completionPercentage });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
     next(error);
   }
 };

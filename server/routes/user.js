@@ -5,6 +5,7 @@ import {
   getUser,
   updateUser,
   updatePassword,
+  getProfileProgress,
 } from '../controllers/userController.js';
 import authenticateToken from '../middlewares/authenticateToken.js';
 
@@ -20,5 +21,7 @@ router.delete('/:id', deleteUser);
 router.get('/single-user', authenticateToken, getUser);
 //Get All
 router.get('/', getAllUsers);
+//user profile progress
+router.get('/profile-progress/:id', getProfileProgress);
 
 export default router;
