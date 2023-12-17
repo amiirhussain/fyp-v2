@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, Layout, Button, Row, Col } from 'antd';
+import { Menu, Layout, Button, Row, Col, Flex } from 'antd';
 import { LoginOutlined, LogoutOutlined } from '@ant-design/icons';
 import './header.css';
 import { Link } from 'react-router-dom';
@@ -9,6 +9,26 @@ const { Header } = Layout;
 
 const Navbar = () => {
   const isUserLoggedIn = localStorage.getItem('token');
+
+  const menuItems = [
+    {
+      key: 'home',
+      label: <Link to="/">Home</Link>,
+    },
+    {
+      key: 'about',
+      label: <Link to="/about">About</Link>,
+    },
+    {
+      key: 'services',
+      label: <Link to="/services">Services</Link>,
+    },
+    {
+      key: 'contact',
+      label: <Link to="/contact">Contact</Link>,
+    },
+  ];
+
   return (
     <Header className="header">
       <Row className="nav--bar">
@@ -18,26 +38,29 @@ const Navbar = () => {
           </Link>
         </Col>
         <Col span={12}>
-          <Menu theme="light" mode="horizontal" defaultSelectedKeys={['1']}>
-            <Menu.Item key="1">
-              <Link to="/">Home</Link>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Link to="/about">About</Link>
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Link to="/services">Services</Link>
-            </Menu.Item>
-            <Menu.Item key="4">
-              <Link to="/contact">Contact</Link>
-            </Menu.Item>
-          </Menu>
+          <Menu
+            defaultSelectedKeys="home"
+            mode="horizontal"
+            className="menu--list"
+            items={menuItems}
+          />
         </Col>
         <Col span={5}>
           {isUserLoggedIn ? (
-            <Link to="/dashboard">
-              <Button>Dashoard</Button>
-            </Link>
+            <Flex gap="large">
+              <Link to="/dashboard">
+                <Button type="primary">Dashoard</Button>
+              </Link>
+              <Link
+                to="/login"
+                onClick={() => {
+                  localStorage.removeItem('token');
+                  localStorage.removeItem('selectedMenuItem');
+                }}
+              >
+                <Button>Logout</Button>
+              </Link>
+            </Flex>
           ) : (
             <div className="auth-buttons">
               <Link to="/login">

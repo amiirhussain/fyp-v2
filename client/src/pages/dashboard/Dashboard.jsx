@@ -16,6 +16,7 @@ const items = [
         to="/"
         onClick={() => {
           localStorage.removeItem('token');
+          localStorage.removeItem('selectedMenuItem');
           navigate('', { replace: true });
         }}
       >

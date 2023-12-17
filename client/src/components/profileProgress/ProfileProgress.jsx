@@ -3,12 +3,11 @@ import getProfileProgress from '../../utils/getProfileProgress';
 
 const ProfileProgress = () => {
   const { profileProgress } = getProfileProgress();
-  console.log(profileProgress);
 
   return (
     <Flex align="center" justify="center">
       <Card style={{ width: 300, textAlign: 'center' }}>
-        <h2>Profile Progress</h2>
+        <h2 style={{ marginBottom: 20, color: 'gray' }}>Profile Progress</h2>
         {profileProgress !== null ? (
           <>
             <Progress

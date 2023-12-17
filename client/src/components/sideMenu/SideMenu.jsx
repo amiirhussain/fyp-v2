@@ -12,6 +12,34 @@ import './sideMenu.css';
 import logoImage from '../../assets/logo.png';
 
 const SideMenu = ({ onMenuClick }) => {
+  const menuItems = [
+    {
+      key: 'dashboard',
+      label: <Link to="">Dashboard</Link>,
+      icon: <HomeOutlined />,
+    },
+    {
+      key: 'analytics',
+      label: <Link to="analytics">Analytics</Link>,
+      icon: <AreaChartOutlined />,
+    },
+    {
+      key: 'chats',
+      label: <Link to="chats">Chats</Link>,
+      icon: <MessageOutlined />,
+    },
+    {
+      key: 'profile',
+      label: <Link to="profile">Profile</Link>,
+      icon: <UserOutlined />,
+    },
+    {
+      key: 'setting',
+      label: <Link to="setting">Setting</Link>,
+      icon: <SettingOutlined />,
+    },
+  ];
+
   const handleClick = ({ key }) => {
     onMenuClick(key);
   };
@@ -19,37 +47,28 @@ const SideMenu = ({ onMenuClick }) => {
   return (
     <div className="sidebar">
       <div className="logo">
-        <Link to="/" className="logo-icon">
+        <Link
+          to="/"
+          onClick={() => {
+            localStorage.removeItem('selectedMenuItem');
+          }}
+          className="logo-icon"
+        >
           <img src={logoImage} alt="" />
           <h4 style={{ textTransform: 'uppercase', letterSpacing: '1px' }}>
             Space Seekers
           </h4>
         </Link>
       </div>
+
       <Menu
+        defaultSelectedKeys="dashboard"
         theme="dark"
-        mode="inline"
         className="menu-bar"
+        items={menuItems}
         selectedKeys={[localStorage.getItem('selectedMenuItem') || 'dashboard']}
         onClick={handleClick}
-      >
-        <Menu.Item key="dashboard" icon={<HomeOutlined />}>
-          <Link to="">Dashboard</Link>
-        </Menu.Item>
-        <Menu.Item key="analytics" icon={<AreaChartOutlined />}>
-          <Link to="analytics">Analytics</Link>
-        </Menu.Item>
-        <Menu.Item key="chats" icon={<MessageOutlined />}>
-          <Link to="chats">Chats</Link>
-        </Menu.Item>
-        <Menu.Item key="profile" icon={<UserOutlined />}>
-          <Link to="profile">Profile</Link>
-        </Menu.Item>
-
-        <Menu.Item key="setting" icon={<SettingOutlined />}>
-          <Link to="setting">Setting</Link>
-        </Menu.Item>
-      </Menu>
+      />
     </div>
   );
 };
