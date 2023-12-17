@@ -1,22 +1,60 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './hero.css';
-import { Button, Card, Form, Select, Flex } from 'antd';
+import { Button, Form, Select } from 'antd';
 
-import {
-  HomeOutlined,
-  UnorderedListOutlined,
-  ArrowRightOutlined,
-} from '@ant-design/icons';
+import { ArrowRightOutlined } from '@ant-design/icons';
 
 import heroImge from '../../assets/hero-image.png';
 import heroCard1 from '../../assets/hero-card-01.png';
 import heroCard2 from '../../assets/hero-card-02.png';
 import heroCard3 from '../../assets/hero-card-03.png';
+import useFetch from '../../hooks/useFetch';
 
 const Hero = () => {
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
+  const { fetchData: apartmentData } = useFetch({
+    UrlEndpoint: 'apartment/get-all',
+  });
+
+  const [propertyType, setPropertyType] = useState(null);
+  const [location, setLocation] = useState(null);
+  const [filteredApartments, setFilteredApartments] = useState([]);
+
+  const handleChangePropertyType = (value) => {
+    setPropertyType(value);
   };
+
+  const handleChangeLocation = (value) => {
+    setLocation(value);
+  };
+  useEffect(() => {
+    function getFilter() {
+      filteredApartments.forEach((apart) => {
+        console.log(
+          '==> Type: ',
+          apart.type,
+          '==> Address: ',
+          apart.address,
+          '==> Title: ',
+          apart.title,
+        );
+      });
+    }
+    getFilter();
+  }, [filteredApartments]);
+
+  const handleSearch = () => {
+    // Filter apartment data based on propertyType and location
+    const filtered = apartmentData.filter((apartment) => {
+      return (
+        (!propertyType || apartment.type === propertyType) &&
+        (!location ||
+          apartment.address.toLowerCase().includes(location.toLowerCase()))
+      );
+    });
+    setFilteredApartments(filtered);
+    console.log('Filtered Apartments:', filtered);
+  };
+
   return (
     <section className="hero">
       <div className="hero--container">
@@ -62,19 +100,19 @@ const Hero = () => {
                       className="hero-filter-input"
                       size="large"
                       placeholder="Property Type"
-                      onChange={handleChange}
+                      onChange={handleChangePropertyType}
                       options={[
                         {
-                          value: 'hostel',
+                          value: 'Hostel',
                           label: 'Hostel',
                         },
                         {
-                          value: 'private-space',
-                          label: 'Private Room',
+                          value: 'Room',
+                          label: 'Room',
                         },
                         {
-                          value: 'shared-house',
-                          label: 'Sharing House',
+                          value: 'House/Flat',
+                          label: 'House/Flat',
                         },
                       ]}
                     />
@@ -82,7 +120,7 @@ const Hero = () => {
                       className="hero-filter-input"
                       size="large"
                       placeholder="Location"
-                      onChange={handleChange}
+                      onChange={handleChangeLocation}
                       options={[
                         {
                           value: 'islamabad',
@@ -98,6 +136,7 @@ const Hero = () => {
                       className="filter-search-btn"
                       type="primary"
                       size="large"
+                      onClick={handleSearch}
                     >
                       Search
                     </Button>
@@ -138,8 +177,6 @@ const Hero = () => {
               <img src={heroCard3} alt="" />
             </div>
           </div>
-          {/* <div className="hero-card"></div>
-          <div className="hero-card"></div> */}
         </div>
       </div>
     </section>
