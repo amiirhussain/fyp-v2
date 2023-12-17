@@ -109,9 +109,7 @@ const AddApartment = () => {
   return (
     <>
       {profileProgress !== null && profileProgress < 100 ? (
-        <UserDataProvider>
-          <ProfileProgress />
-        </UserDataProvider>
+        <ProfileProgress />
       ) : (
         <div>
           <div
