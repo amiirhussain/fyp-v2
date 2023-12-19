@@ -1,60 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import './hero.css';
-import { Button, Form, Select } from 'antd';
-
 import { ArrowRightOutlined } from '@ant-design/icons';
-
+import { Button, Card, Flex } from 'antd';
+import { useNavigate } from 'react-router';
 import heroImge from '../../assets/hero-image.png';
 import heroCard1 from '../../assets/hero-card-01.png';
 import heroCard2 from '../../assets/hero-card-02.png';
 import heroCard3 from '../../assets/hero-card-03.png';
-import useFetch from '../../hooks/useFetch';
+
+import './hero.css';
 
 const Hero = () => {
-  const { fetchData: apartmentData } = useFetch({
-    UrlEndpoint: 'apartment/get-all',
-  });
-
-  const [propertyType, setPropertyType] = useState(null);
-  const [location, setLocation] = useState(null);
-  const [filteredApartments, setFilteredApartments] = useState([]);
-
-  const handleChangePropertyType = (value) => {
-    setPropertyType(value);
-  };
-
-  const handleChangeLocation = (value) => {
-    setLocation(value);
-  };
-  useEffect(() => {
-    function getFilter() {
-      filteredApartments.forEach((apart) => {
-        console.log(
-          '==> Type: ',
-          apart.type,
-          '==> Address: ',
-          apart.address,
-          '==> Title: ',
-          apart.title,
-        );
-      });
-    }
-    getFilter();
-  }, [filteredApartments]);
-
-  const handleSearch = () => {
-    // Filter apartment data based on propertyType and location
-    const filtered = apartmentData.filter((apartment) => {
-      return (
-        (!propertyType || apartment.type === propertyType) &&
-        (!location ||
-          apartment.address.toLowerCase().includes(location.toLowerCase()))
-      );
-    });
-    setFilteredApartments(filtered);
-    console.log('Filtered Apartments:', filtered);
-  };
-
+  const navigate = useNavigate();
   return (
     <section className="hero">
       <div className="hero--container">
@@ -67,82 +22,18 @@ const Hero = () => {
                 the new kind,
                 <br /> of Living.
               </h1>
-              <div className="search--filter-box">
-                <Form>
-                  <div className="search-box">
-                    {/* <Select
-                    size="large"
-                    label="Room Type"
-                    placeholder="Room Type"
-                    onChange={handleChange}
-                    options={[
-                      {
-                        value: 'one-bed',
-                        label: '1 Bed',
-                      },
-                      {
-                        value: 'two-bed',
-                        label: '2 Bed',
-                      },
-                      {
-                        value: 'three-bed',
-                        label: '3 Bed',
-                      },
-                      {
-                        value: 'four-bed',
-                        label: '4 Bed',
-                        disabled: true,
-                      },
-                    ]}
-                  /> */}
-
-                    <Select
-                      className="hero-filter-input"
-                      size="large"
-                      placeholder="Property Type"
-                      onChange={handleChangePropertyType}
-                      options={[
-                        {
-                          value: 'Hostel',
-                          label: 'Hostel',
-                        },
-                        {
-                          value: 'Room',
-                          label: 'Room',
-                        },
-                        {
-                          value: 'House/Flat',
-                          label: 'House/Flat',
-                        },
-                      ]}
-                    />
-                    <Select
-                      className="hero-filter-input"
-                      size="large"
-                      placeholder="Location"
-                      onChange={handleChangeLocation}
-                      options={[
-                        {
-                          value: 'islamabad',
-                          label: 'Islamabad',
-                        },
-                        {
-                          value: 'rawalpindi',
-                          label: 'Rawalpindi',
-                        },
-                      ]}
-                    />
-                    <Button
-                      className="filter-search-btn"
-                      type="primary"
-                      size="large"
-                      onClick={handleSearch}
-                    >
-                      Search
-                    </Button>
-                  </div>
-                </Form>
-              </div>
+              <Card style={{ width: 500, border: '1px solid gray' }}>
+                <Flex justify="space-between">
+                  <h2>Search Smarter, Find Better</h2>
+                  <Button
+                    onClick={() => {
+                      navigate('/filter');
+                    }}
+                  >
+                    Search
+                  </Button>
+                </Flex>
+              </Card>
             </div>
           </div>
           <div className="hero--image">

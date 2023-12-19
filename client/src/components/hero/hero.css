@@ -30,17 +30,6 @@
 .hero-detail .hero--title {
   font-size: 60px;
 }
-.search-details .search-box {
-  background: #fff;
-  padding: 20px;
-  display: flex;
-  gap: 10px;
-  border: 1px solid #b4b1b1;
-  border-radius: 20px;
-}
-.search-box .hero-filter-input {
-  width: 200px;
-}
 
 .hero--image {
   /* width: 100%; */
