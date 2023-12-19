@@ -11,6 +11,8 @@ import { ApartmentProvider } from './contexts/ApartContext';
 import AddApartment from './components/addApartment/AddApartment';
 import PageNotFound from './components/pageNotFound/pageNotFound';
 import ComingSoon from './components/comingSoon/ComingSoon';
+import { SearchFilterProvider } from './contexts/SearchFilterContext';
+import SearchFilter from './components/searchFilter/SearchFilter';
 
 const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -55,6 +57,14 @@ const App = () => {
           element={<Login setUserLoggedIn={setUserLoggedIn} />}
         />
         <Route path="/register" element={<Register />} />
+        <Route
+          path="/filter"
+          element={
+            <SearchFilterProvider>
+              <SearchFilter />
+            </SearchFilterProvider>
+          }
+        />
         <Route path="/apartment/:id" element={<ApartmentDetail />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>

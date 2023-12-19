@@ -5,6 +5,7 @@ import {
   getAllApartments,
   getAllApartmentsByUser,
   getApartment,
+  getfilteredApartments,
   updateApartment,
 } from '../controllers/apartmentController.js';
 import authenticateToken from '../middlewares/authenticateToken.js';
@@ -21,6 +22,8 @@ apartmentRoute.delete('/:id', authenticateToken, deleteApartment);
 apartmentRoute.get('/by-user', authenticateToken, getAllApartmentsByUser);
 //Get all apartment list
 apartmentRoute.get('/get-all', getAllApartments);
+//Get filter apartment list
+apartmentRoute.get('/filter-apartments', getfilteredApartments);
 // get by id
 apartmentRoute.get('/:id', getApartment);
 

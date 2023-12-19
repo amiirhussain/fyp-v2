@@ -152,3 +152,19 @@ export const getAllApartments = async (req, res, next) => {
     next(error);
   }
 };
+
+//  Search Filter
+export const getfilteredApartments = async (req, res, next) => {
+  try {
+    const { type, location } = req.query;
+    const filters = {};
+    if (type) filters.type = new RegExp(type, 'i');
+    if (location) filters.address = new RegExp(location, 'i');
+
+    const apartments = await Apartment.find(filters);
+    res.json(apartments);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
