@@ -11,8 +11,6 @@ import {
   Empty,
 } from 'antd';
 
-// ... (previous imports)
-
 const AdvancedFilter = () => {
   const { apartments, isNoApartmentsFound } = useSearchFilterContext();
   const [loading, setLoading] = useState(true);
@@ -127,8 +125,10 @@ const AdvancedFilter = () => {
             <Skeleton active />
           ) : (
             <>
-              {filteredApartments.length > 0 && (
+              {filteredApartments.length > 0 ? (
                 <FilterList filteredApartments={filteredApartments} />
+              ) : (
+                <Empty description="No Apartments Found" />
               )}
             </>
           )}
