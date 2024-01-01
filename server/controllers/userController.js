@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import User from '../models/UserModel.js';
 import bcrypt from 'bcrypt';
+import { calculateMatchingPercentage } from '../utils/matchingUtils.js';
 
 export const updatePassword = async (req, res, next) => {
   try {
@@ -137,6 +138,39 @@ export const getProfileProgress = async (req, res, next) => {
       (completedFields / requiredFields.length) * 100;
 
     res.status(200).json({ completionPercentage });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+    next(error);
+  }
+};
+
+// Get Matching Users
+export const getMatchingUsers = async (req, res, next) => {
+  try {
+    const userEmail = req.user.email;
+
+    const loggedInUser = await User.findOne({ email: userEmail }).select(
+      '-password',
+    );
+    if (!loggedInUser) {
+      return res.status(404).json({ status: 'error', error: 'User not found' });
+    }
+
+    const matchingUsers = await User.find({ email: { $ne: userEmail } }).select(
+      '-password',
+    );
+
+    const usersWithMatchingPercentage = matchingUsers.map((user) => ({
+      ...user.toObject(),
+      matchingPercentage: calculateMatchingPercentage(loggedInUser, user),
+    }));
+
+    const sortedMatchingUsers = usersWithMatchingPercentage.sort(
+      (a, b) => b.matchingPercentage - a.matchingPercentage,
+    );
+
+    res.status(200).json(sortedMatchingUsers);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });

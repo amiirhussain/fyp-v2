@@ -13,6 +13,7 @@ import PageNotFound from './components/pageNotFound/pageNotFound';
 import ComingSoon from './components/comingSoon/ComingSoon';
 import { SearchFilterProvider } from './contexts/SearchFilterContext';
 import SearchFilter from './components/searchFilter/SearchFilter';
+import MatchUser from './components/matchUser/MatchUser';
 
 const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -49,6 +50,7 @@ const App = () => {
             path="analytics"
             element={<ComingSoon pageTitle="Analytics" />}
           />
+          <Route path="match-user" element={<MatchUser />} />
           <Route path="chats" element={<ComingSoon pageTitle="Chats" />} />
           <Route path="setting" element={<ComingSoon pageTitle="Settings" />} />
         </Route>

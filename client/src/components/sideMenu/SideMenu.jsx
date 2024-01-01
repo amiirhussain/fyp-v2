@@ -6,6 +6,7 @@ import {
   AreaChartOutlined,
   SettingOutlined,
   UserOutlined,
+  UserAddOutlined,
 } from '@ant-design/icons';
 
 import './sideMenu.css';
@@ -22,6 +23,11 @@ const SideMenu = ({ onMenuClick }) => {
       key: 'analytics',
       label: <Link to="analytics">Analytics</Link>,
       icon: <AreaChartOutlined />,
+    },
+    {
+      key: 'match-user',
+      label: <Link to="match-user">Match User</Link>,
+      icon: <UserAddOutlined />,
     },
     {
       key: 'chats',
