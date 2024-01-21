@@ -14,6 +14,7 @@ import ComingSoon from './components/comingSoon/ComingSoon';
 import { SearchFilterProvider } from './contexts/SearchFilterContext';
 import SearchFilter from './components/searchFilter/SearchFilter';
 import MatchUser from './components/matchUser/MatchUser';
+import EmailVerify from './auth/EmailVerify';
 
 const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -59,6 +60,8 @@ const App = () => {
           element={<Login setUserLoggedIn={setUserLoggedIn} />}
         />
         <Route path="/register" element={<Register />} />
+        <Route path="/user/:id/verify/:token" element={<EmailVerify />} />
+
         <Route
           path="/filter"
           element={

@@ -9,9 +9,12 @@ import {
   getMatchingUsers,
 } from '../controllers/userController.js';
 import authenticateToken from '../middlewares/authenticateToken.js';
+import { verifyUser } from '../controllers/authController.js';
 
 const router = express.Router();
 
+// verify user
+router.get('/:id/verify/:token', verifyUser);
 //Update
 router.put('/:id', updateUser);
 //update password

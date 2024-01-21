@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { Button, Form, Input, Card, message } from 'antd';
+import { Button, Form, Input, Card, message, Alert, Spin } from 'antd';
 import './auth.css';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/header/Header';
 
 const Register = () => {
-  const navigate = useNavigate();
   const [passwordError, setPasswordError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [msg, setMsg] = useState('');
+
+  const [loading, setLoading] = useState(false);
 
   const userNameValidator = /^[a-zA-Z0-9_-]{3,20}$/;
   const fullNameValidator = /^[a-zA-Z\s'-]{2,50}$/;
@@ -36,6 +38,8 @@ const Register = () => {
     }
 
     try {
+      setLoading(true);
+
       const response = await fetch('http://localhost:1337/auth/register', {
         method: 'POST',
         headers: {
@@ -44,9 +48,10 @@ const Register = () => {
         body: JSON.stringify(values),
       });
 
+      const data = await response.json();
       if (response.status === 200) {
-        message.success('Registration successful');
-        navigate('/login');
+        setMsg(data.message);
+        message.success('Email Sent Successfully');
       } else if (response.status === 400) {
         setEmailError('User already registered');
         message.error('User Already registered');
@@ -57,6 +62,7 @@ const Register = () => {
       message.error('Registration failed');
     } finally {
       setPasswordError('');
+      setLoading(false);
     }
   };
 
@@ -178,12 +184,15 @@ const Register = () => {
                 <Input.Password size="large" placeholder="Confirm Password" />
               </Form.Item>
             </div>
+            {passwordError && <Alert message={passwordError} type="error" />}
 
-            {passwordError && (
-              <p style={{ color: 'red', marginBottom: '10px' }}>
-                {passwordError}
-              </p>
+            {loading && (
+              <Spin tip="Loading">
+                <div className="content" />
+              </Spin>
             )}
+
+            {msg && <Alert message={msg} type="success" showIcon />}
 
             <Form.Item style={{ marginTop: '2rem' }}>
               <Button

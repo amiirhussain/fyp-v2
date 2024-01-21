@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema(
     userName: {
       type: String,
       required: true,
-      // unique: true,
     },
     email: {
       type: String,
@@ -19,7 +18,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-
+    verified: {
+      type: Boolean,
+      default: false,
+    },
     isAdmin: {
       type: Boolean,
       default: false,

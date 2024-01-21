@@ -12,6 +12,10 @@ const apartmentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    genderType: {
+      type: String,
+      required: true,
+    },
     rent: {
       type: Number,
       // required: true,
@@ -76,11 +80,6 @@ const apartmentSchema = new mongoose.Schema(
       min: 1,
       max: 5,
     },
-
-    // userRef: {
-    //   type: String,
-    //   //   required: true,
-    // },
   },
   { timestamps: true },
 );

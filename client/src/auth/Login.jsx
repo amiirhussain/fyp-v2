@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Input, Card, message } from 'antd';
+import { Button, Form, Input, Card, message, Alert } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import './auth.css';
 import Navbar from '../components/header/Header';
 
 const Login = ({ setUserLoggedIn }) => {
   const navigate = useNavigate();
+  const [errMessage, setErrMessage] = useState('');
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem('token');
@@ -30,6 +31,8 @@ const Login = ({ setUserLoggedIn }) => {
         localStorage.setItem('token', data.user);
         navigate('/dashboard');
         setUserLoggedIn(true);
+      } else if (data.message) {
+        setErrMessage(data.message);
       } else {
         message.error('Please check your email and password.');
       }
@@ -38,7 +41,6 @@ const Login = ({ setUserLoggedIn }) => {
       message.error('Failed to connect!');
     }
   };
-
   return (
     <>
       <Navbar />
@@ -81,6 +83,9 @@ const Login = ({ setUserLoggedIn }) => {
               <Input.Password size="large" placeholder="Password" />
             </Form.Item>
 
+            {errMessage && (
+              <Alert message={errMessage} type="warning" showIcon />
+            )}
             <Form.Item style={{ marginTop: '2rem' }}>
               <Button
                 className="form-btn"
