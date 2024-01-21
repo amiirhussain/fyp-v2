@@ -161,10 +161,12 @@ export const getMatchingUsers = async (req, res, next) => {
       '-password',
     );
 
-    const usersWithMatchingPercentage = matchingUsers.map((user) => ({
-      ...user.toObject(),
-      matchingPercentage: calculateMatchingPercentage(loggedInUser, user),
-    }));
+    const usersWithMatchingPercentage = matchingUsers
+      .filter((user) => user.gender === loggedInUser.gender)
+      .map((user) => ({
+        ...user.toObject(),
+        matchingPercentage: calculateMatchingPercentage(loggedInUser, user),
+      }));
 
     const sortedMatchingUsers = usersWithMatchingPercentage.sort(
       (a, b) => b.matchingPercentage - a.matchingPercentage,

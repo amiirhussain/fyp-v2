@@ -67,6 +67,7 @@ const MatchUser = () => {
                   }
                 >
                   <Meta title={user.fullName} description={user.email} />
+                  <span>Gender : {user.gender}</span>
                   <br />
                   <Progress type="circle" percent={user.matchingPercentage} />
                 </Card>
