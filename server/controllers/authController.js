@@ -33,7 +33,7 @@ export const register = async (req, res, next) => {
     }).save();
 
     const url = `http://localhost:5173/user/${user.id}/verify/${token.token}`;
-    await sendMail(user.email, 'Verify Email', url);
+    await sendMail(user.email, url);
 
     res.json({
       status: 'ok',
@@ -72,7 +72,7 @@ export const login = async (req, res, next) => {
             token: crypto.randomBytes(32).toString('hex'),
           }).save();
           const url = `http://localhost:5173/user/${user.id}/verify/${token.token}`;
-          await sendMail(user.email, 'Verify Email', url);
+          await sendMail(user.email, url);
         }
 
         return res
