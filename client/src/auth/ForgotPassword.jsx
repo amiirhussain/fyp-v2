@@ -47,7 +47,7 @@ const ForgotPassword = () => {
     <>
       <Navbar />
       <div className="form--container">
-        <Card title="Forgot Password" bordered={false} style={{ width: 400 }}>
+        <Card title="Forgot Password" bordered={false} style={{ width: 500 }}>
           <Form
             layout="vertical"
             className="form"
@@ -74,9 +74,7 @@ const ForgotPassword = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </Form.Item>
-            {loading && (
-              <Spin tip="Loading" style={{ marginBottom: '10px' }}></Spin>
-            )}
+            {loading && <Spin style={{ marginBottom: '10px' }}></Spin>}
             {errMessage && (
               <Alert
                 message={errMessage}

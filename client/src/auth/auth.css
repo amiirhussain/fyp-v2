@@ -39,8 +39,21 @@
   background: transparent;
 }
 .form--container .btn-google {
-  color: #aaaaaa;
+  background: #fff;
+  color: #4285f4;
+  border: 1px solid #4285f4 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 500;
 }
-.form--container .btn-rest {
-  margin-top: 1rem;
+.form--container .btn-google-icon {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.form--container .form-link {
+  text-align: center;
+  margin-top: 20px;
 }
