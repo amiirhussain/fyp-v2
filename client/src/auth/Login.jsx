@@ -82,10 +82,14 @@ const Login = ({ setUserLoggedIn }) => {
             >
               <Input.Password size="large" placeholder="Password" />
             </Form.Item>
+            <p style={{ textAlign: 'left' }}>
+              <Link to="/forgot-password">Forgot Your Password?</Link>
+            </p>
 
             {errMessage && (
               <Alert message={errMessage} type="warning" showIcon />
             )}
+
             <Form.Item style={{ marginTop: '2rem' }}>
               <Button
                 className="form-btn"

@@ -15,6 +15,8 @@ import { SearchFilterProvider } from './contexts/SearchFilterContext';
 import SearchFilter from './components/searchFilter/SearchFilter';
 import MatchUser from './components/matchUser/MatchUser';
 import EmailVerify from './auth/EmailVerify';
+import ForgotPassword from './auth/ForgotPassword';
+import ResetPassword from './auth/ResetPassword';
 
 const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -60,6 +62,11 @@ const App = () => {
           element={<Login setUserLoggedIn={setUserLoggedIn} />}
         />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route
+          path="/auth/reset-password/:resetToken"
+          element={<ResetPassword />}
+        />
         <Route path="/user/:id/verify/:token" element={<EmailVerify />} />
 
         <Route

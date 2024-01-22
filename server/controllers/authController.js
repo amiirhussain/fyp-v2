@@ -3,7 +3,11 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import createError from '../utils/error.js';
 import Token from '../models/token.js';
-import sendMail from '../utils/sendMail.js';
+// import sendMail from '../utils/sendMail.js';
+import {
+  sendVerificationEmail,
+  sendResetPasswordEmail,
+} from '../utils/sendMail.js';
 import crypto from 'crypto';
 
 const JWT_SECRET = 'secret123';
@@ -33,7 +37,7 @@ export const register = async (req, res, next) => {
     }).save();
 
     const url = `http://localhost:5173/user/${user.id}/verify/${token.token}`;
-    await sendMail(user.email, url);
+    await sendVerificationEmail(user.email, url);
 
     res.json({
       status: 'ok',
@@ -72,7 +76,7 @@ export const login = async (req, res, next) => {
             token: crypto.randomBytes(32).toString('hex'),
           }).save();
           const url = `http://localhost:5173/user/${user.id}/verify/${token.token}`;
-          await sendMail(user.email, url);
+          await sendVerificationEmail(user.email, url);
         }
 
         return res
@@ -120,5 +124,77 @@ export const verifyUser = async (req, res) => {
   } catch (error) {
     console.error('Error in verifyUser:', error);
     res.status(500).send({ message: 'Internal Server Error' });
+  }
+};
+
+// Forgot Password
+export const forgotPassword = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ status: 'error', error: 'User not found' });
+    }
+
+    const existingToken = await Token.findOne({ userId: user._id });
+
+    if (existingToken) {
+      await Token.deleteOne({ userId: user._id });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+
+    await Token.create({
+      userId: user._id,
+      token: resetToken,
+    });
+
+    const resetUrl = `http://localhost:5173/auth/reset-password/${resetToken}`;
+    await sendResetPasswordEmail(user.email, resetUrl);
+
+    res.json({
+      status: 'ok',
+      message: 'Reset password email sent successfully',
+    });
+  } catch (error) {
+    console.error('Error in forgotPassword:', error);
+    res.status(500).json({ status: 'error', error: 'Internal Server Error' });
+  }
+};
+
+// Reset Password
+export const resetPassword = async (req, res, next) => {
+  try {
+    const { resetToken, newPassword } = req.body;
+
+    const tokenDocument = await Token.findOne({ token: resetToken });
+
+    if (!tokenDocument) {
+      console.error('Invalid token:', resetToken);
+      return res
+        .status(404)
+        .json({ status: 'error', error: 'Reset token not found or invalid' });
+    }
+
+    const user = await User.findById(tokenDocument.userId);
+
+    if (!user) {
+      console.error('User not found for token:', resetToken);
+      return res.status(404).json({ status: 'error', error: 'User not found' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    await Token.deleteOne({ userId: user._id });
+
+    console.log('Password reset successfully');
+    res.json({ status: 'ok', message: 'Password reset successfully' });
+  } catch (err) {
+    console.error('Error resetting password:', err);
+    next(err);
   }
 };
