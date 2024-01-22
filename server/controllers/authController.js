@@ -99,6 +99,68 @@ export const login = async (req, res, next) => {
   }
 };
 
+// Sign with Google
+export const GoogleAuth = async (req, res) => {
+  const { name, email, googlePhotoUrl } = req.body;
+
+  try {
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      const hashedPassword = await bcrypt.hash(
+        crypto.randomBytes(16).toString('hex'),
+        10,
+      );
+
+      user = await User.create({
+        userName:
+          name.toLowerCase().split(' ').join('') +
+          Math.random().toString(9).slice(-4),
+        fullName: name,
+        email,
+        password: hashedPassword,
+        profileImage: googlePhotoUrl,
+        verified: true,
+      });
+
+      const token = jwt.sign(
+        {
+          name: user.fullName,
+          email: user.email,
+        },
+        JWT_SECRET,
+      );
+
+      res.json({
+        status: 'ok',
+        user: token,
+        message: 'User registered successfully.',
+      });
+    } else {
+      const token = jwt.sign(
+        {
+          name: user.fullName,
+          email: user.email,
+        },
+        JWT_SECRET,
+      );
+
+      console.log('User logged in successfully:', user);
+
+      return res.json({
+        status: 'ok',
+        user: token,
+        message: 'Login successfully.',
+      });
+    }
+  } catch (err) {
+    console.error('Error in GoogleAuth:', err);
+    return res
+      .status(500)
+      .json({ status: 'error', error: 'Internal server error' });
+  }
+};
+
 // verify user with email
 export const verifyUser = async (req, res) => {
   try {

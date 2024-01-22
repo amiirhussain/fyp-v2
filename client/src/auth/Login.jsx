@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Form, Input, Card, message, Alert } from 'antd';
+import { Button, Form, Input, Card, message, Alert, Spin } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import './auth.css';
 import Navbar from '../components/header/Header';
+import OAuth from './OAuth';
 
 const Login = ({ setUserLoggedIn }) => {
   const navigate = useNavigate();
   const [errMessage, setErrMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem('token');
@@ -17,6 +19,9 @@ const Login = ({ setUserLoggedIn }) => {
 
   const onFinish = async (values) => {
     try {
+      setLoading(true);
+      setErrMessage('');
+
       const response = await fetch('http://localhost:1337/auth/login', {
         method: 'POST',
         headers: {
@@ -31,14 +36,22 @@ const Login = ({ setUserLoggedIn }) => {
         localStorage.setItem('token', data.user);
         navigate('/dashboard');
         setUserLoggedIn(true);
+        setLoading(false);
       } else if (data.message) {
         setErrMessage(data.message);
+        setLoading(false);
       } else {
         message.error('Please check your email and password.');
+        setErrMessage('Email or Password is invalid');
+        setLoading(false);
       }
     } catch (error) {
       console.error('Error during fetch:', error);
       message.error('Failed to connect!');
+      setLoading(false);
+    } finally {
+      // setPasswordError('');
+      setLoading(false);
     }
   };
   return (
@@ -86,11 +99,17 @@ const Login = ({ setUserLoggedIn }) => {
               <Link to="/forgot-password">Forgot Your Password?</Link>
             </p>
 
+            {loading && <Spin />}
             {errMessage && (
-              <Alert message={errMessage} type="warning" showIcon />
+              <Alert
+                message={errMessage}
+                type="warning"
+                showIcon
+                style={{ marginTop: '10px' }}
+              />
             )}
 
-            <Form.Item style={{ marginTop: '2rem' }}>
+            <Form.Item style={{ marginTop: '1rem' }}>
               <Button
                 className="form-btn"
                 type="primary"
@@ -100,16 +119,9 @@ const Login = ({ setUserLoggedIn }) => {
                 Submit
               </Button>
             </Form.Item>
-            {/* <Form.Item>
-            <Button
-            size="large"
-            className="form-btn btn-google"
-            htmlType="submit"
-            >
-            Sign in with Google
-            </Button>
-          </Form.Item> */}
-            <p style={{ textAlign: 'center' }}>
+            <OAuth />
+
+            <p className="form-link">
               Don't have an account? <Link to="/register"> Register Now </Link>
             </p>
           </Form>

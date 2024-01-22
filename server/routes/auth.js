@@ -4,6 +4,7 @@ import {
   login,
   forgotPassword,
   resetPassword,
+  GoogleAuth,
 } from '../controllers/authController.js';
 
 const router = express.Router();
@@ -19,9 +20,7 @@ router.post('/forgot-password', forgotPassword);
 // Reset Password
 router.post('/reset-password/:token', resetPassword);
 
-router.get('/google', (req, res) => {
-  res.send('Google Sign In!');
-});
+router.post('/google', GoogleAuth);
 
 router.get('/logout', (req, res) => {
   res.send('Logout!');

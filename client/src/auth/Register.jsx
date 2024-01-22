@@ -3,6 +3,7 @@ import { Button, Form, Input, Card, message, Alert, Spin } from 'antd';
 import './auth.css';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/header/Header';
+import OAuth from './OAuth';
 
 const Register = () => {
   const [passwordError, setPasswordError] = useState('');
@@ -186,15 +187,11 @@ const Register = () => {
             </div>
             {passwordError && <Alert message={passwordError} type="error" />}
 
-            {loading && (
-              <Spin tip="Loading">
-                <div className="content" />
-              </Spin>
-            )}
+            {loading && <Spin />}
 
             {msg && <Alert message={msg} type="success" showIcon />}
 
-            <Form.Item style={{ marginTop: '2rem' }}>
+            <Form.Item style={{ marginTop: '1rem' }}>
               <Button
                 size="large"
                 className="form-btn"
@@ -204,16 +201,9 @@ const Register = () => {
                 Submit
               </Button>
             </Form.Item>
-            {/* <Form.Item>
-            <Button
-            size="large"
-            className="form-btn btn-google"
-            htmlType="submit"
-            >
-            Signup with Google
-            </Button>
-          </Form.Item> */}
-            <p style={{ textAlign: 'center' }}>
+            <OAuth />
+
+            <p className="form-link">
               Already have an account? <Link to="/login"> Login Now </Link>
             </p>
           </Form>
