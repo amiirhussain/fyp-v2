@@ -45,11 +45,13 @@ const AddApartment = () => {
   const [imageFile, setImageFile] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [imageFileUrl, setImageFileUrl] = useState(null);
+  const [imageEdited, setImageEdited] = useState(false);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
+      setImageEdited(true);
     }
   };
 
@@ -105,7 +107,6 @@ const AddApartment = () => {
   }, [open, editMode, error]);
 
   const handleSuccess = () => {
-    console.log('Handling success');
     setOpen(false);
     message.success(
       editMode
@@ -118,6 +119,7 @@ const AddApartment = () => {
   const handleSubmit = (values) => {
     try {
       values.imageUrl = imageFileUrl;
+      values.usps = values.usps.split(',').map((item) => item.trim());
       addApartment(values);
       handleSuccess();
     } catch (error) {
@@ -128,7 +130,17 @@ const AddApartment = () => {
   const handleEditSubmit = (values) => {
     try {
       if (editData) {
-        values.imageUrl = imageFileUrl;
+        if (!imageEdited) {
+          // If image is not edited, use the previous URL
+          values.imageUrl = editData.imageUrl;
+        } else {
+          values.imageUrl = imageFileUrl;
+        }
+        if (Array.isArray(values.usps)) {
+          values.usps = values.usps.map((item) => item.trim());
+        } else {
+          values.usps = values.usps.split(',').map((item) => item.trim());
+        }
         updateApartment(editData._id, values);
         handleSuccess();
       } else {
@@ -157,6 +169,7 @@ const AddApartment = () => {
       title: apartment.title,
       genderType: apartment.genderType,
       address: apartment.address,
+      usps: apartment.usps,
       size: apartment.size,
       rent: apartment.rent,
       bedrooms: apartment.bedrooms,
@@ -316,6 +329,7 @@ const AddApartment = () => {
                 )}
               </Flex>
 
+              {/* <Flex gap="large"> */}
               <Form.Item
                 name="address"
                 label="Address"
@@ -328,6 +342,7 @@ const AddApartment = () => {
               >
                 <Input size="large" placeholder="Address" />
               </Form.Item>
+              {/* </Flex> */}
               <div
                 style={{
                   display: 'flex ',
@@ -385,28 +400,46 @@ const AddApartment = () => {
                   <Input size="large" placeholder="Bathrooms" />
                 </Form.Item>
               </div>
-              <div
-                style={{
-                  display: 'flex ',
-                  gap: '20px',
-                  alignItems: 'center',
-                }}
-              >
+              <Flex gap="large">
                 <Form.Item
-                  name="furnished"
-                  label="Furnished?"
-                  valuePropName="checked"
+                  name="usps"
+                  label="Amenities"
+                  style={{ width: '60%' }}
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input Amenities',
+                    },
+                  ]}
                 >
-                  <Checkbox size="large" />
+                  <Input.TextArea
+                    size="large"
+                    placeholder="Amenities (comma-separated)"
+                  />
                 </Form.Item>
-                <Form.Item
-                  name="parking"
-                  label="Parking?"
-                  valuePropName="checked"
+                <div
+                  style={{
+                    display: 'flex ',
+                    gap: '20px',
+                    alignItems: 'center',
+                  }}
                 >
-                  <Checkbox size="large" />
-                </Form.Item>
-              </div>
+                  <Form.Item
+                    name="furnished"
+                    label="Furnished?"
+                    valuePropName="checked"
+                  >
+                    <Checkbox size="large" />
+                  </Form.Item>
+                  <Form.Item
+                    name="parking"
+                    label="Parking?"
+                    valuePropName="checked"
+                  >
+                    <Checkbox size="large" />
+                  </Form.Item>
+                </div>
+              </Flex>
               <Form.Item>
                 <Button size="large" type="primary" htmlType="submit">
                   {editMode ? 'Update' : 'Submit'}

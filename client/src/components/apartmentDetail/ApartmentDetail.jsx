@@ -4,8 +4,9 @@ import { SiZerodha } from 'react-icons/si';
 import { FaBed, FaBath } from 'react-icons/fa';
 import useFetch from '../../hooks/useFetch';
 import Navbar from '../header/Header';
-import { Flex } from 'antd';
+import { Button, Flex, Space } from 'antd';
 import { FaLocationDot } from 'react-icons/fa6';
+import CustomFooter from '../footer/Footer';
 
 const ApartmentDetail = () => {
   const { id } = useParams();
@@ -68,20 +69,27 @@ const ApartmentDetail = () => {
 
             <h4>Amenities</h4>
             <div className="apart-amentites">
-              <span>Air Conditiong</span>
-              <span>Attach Washroom</span>
-              <span>Spacious Cupboard</span>
+              {apartmentData.usps > 0
+                ? apartmentData.usps.map((amentity) => (
+                    <>
+                      <span>{amentity.toUpperCase()}</span>
+                    </>
+                  ))
+                : 'NA'}
             </div>
-            <h4>Services</h4>
-            <div className="apart-services">
-              <span>Hot and Delicious Meals</span>
-              <span>High-Speed WIFI</span>
-              <span>Laundry Service</span>
-              <span>Washing Machine</span>
-            </div>
+
+            <Space style={{ marginTop: '1rem' }}>
+              <Button size="large" style={{ width: 200 }} type="primary">
+                Chat
+              </Button>
+              <Button size="large" style={{ width: 200 }}>
+                Schedule a visit
+              </Button>
+            </Space>
           </>
         )}
       </section>
+      <CustomFooter />
     </>
   );
 };

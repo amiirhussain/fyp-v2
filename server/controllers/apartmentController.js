@@ -29,6 +29,7 @@ export const createApartment = async (req, res, next) => {
       distance: req.body.distance,
       rent: req.body.rent,
       imageUrls: req.body.imageUrl,
+      usps: req.body.usps,
     });
 
     const savedApartment = await newApartment.save();
@@ -79,6 +80,7 @@ export const updateApartment = async (req, res, next) => {
       distance: req.body.distance,
       rent: req.body.rent,
       imageUrls: req.body.imageUrl,
+      usps: req.body.usps,
     };
 
     const updatedApartment = await Apartment.findByIdAndUpdate(
