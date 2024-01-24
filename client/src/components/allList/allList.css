@@ -52,9 +52,20 @@
 .home--list--container .list-status-false {
   background: red;
 }
+
+.home--list--container .list-genderType {
+  color: rgb(41, 205, 208);
+  border: 1px solid rgb(41, 205, 208);
+  border-radius: 80px;
+  padding: 2px 20px;
+  font-size: 12px;
+}
 .home--list--container .list-type {
-  margin-top: 1rem;
   color: gray;
+  border: 1px solid gray;
+  border-radius: 80px;
+  padding: 2px 20px;
+  font-size: 12px;
 }
 .home--list--container .apartment-address {
   margin-top: 10px;

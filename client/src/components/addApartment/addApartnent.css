@@ -1,0 +1,13 @@
+.upload-image {
+  padding: 9px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  outline: none;
+  font-size: 14px;
+  background-color: #fff;
+  color: #333;
+}
+
+.upload-image:focus {
+  border-color: #007bff;
+}

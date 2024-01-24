@@ -3,7 +3,7 @@ import './allList.css';
 import useFetch from '../../hooks/useFetch';
 import { SiZerodha } from 'react-icons/si';
 import { FaLocationDot, FaBath, FaBed } from 'react-icons/fa6';
-import { Button, Space } from 'antd';
+import { Button, Flex, Space } from 'antd';
 import { Link } from 'react-router-dom';
 
 const AllList = () => {
@@ -23,7 +23,7 @@ const AllList = () => {
             className="apartment--list"
           >
             <div className="list--image">
-              <img src={item.imageUrls[0]} alt={item.title} />
+              <img src={item.imageUrls} alt={item.title} />
             </div>
 
             <div className="list-detail">
@@ -37,7 +37,10 @@ const AllList = () => {
                 {item.isAvailble ? 'Available' : 'Not Available'}
               </div>
 
-              <div className="list-type">{item.type}</div>
+              <Flex gap="large" align="center" style={{ padding: '10px 0 ' }}>
+                <div className="list-genderType">{item.genderType}</div>
+                <div className="list-type">{item.type}</div>
+              </Flex>
               <span className="apartment-address">
                 <FaLocationDot className="icon" /> {item.address}
               </span>

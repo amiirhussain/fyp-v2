@@ -15,6 +15,9 @@
 .home {
   padding: 0rem 10%;
 }
-.apartment--detail {
+.apartment--detail,
+.about,
+.contact,
+.services {
   padding: 2rem 10%;
 }

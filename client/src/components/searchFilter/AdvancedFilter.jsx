@@ -1,15 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchFilterContext } from '../../contexts/SearchFilterContext';
 import FilterList from './FilterList';
-import {
-  Card,
-  InputNumber,
-  Checkbox,
-  Flex,
-  Skeleton,
-  Slider,
-  Empty,
-} from 'antd';
+import { Card, InputNumber, Checkbox, Flex, Empty, Select, Form } from 'antd';
+
+const { Option } = Select;
 
 const AdvancedFilter = () => {
   const { apartments, isNoApartmentsFound } = useSearchFilterContext();
@@ -24,6 +18,7 @@ const AdvancedFilter = () => {
     bedrooms: null,
     furnished: false,
     parking: false,
+    genderType: null,
   });
 
   // Function to handle filter changes
@@ -38,6 +33,8 @@ const AdvancedFilter = () => {
   const filterApartments = () => {
     const filtered = apartments.filter((apartment) => {
       return (
+        (filters.genderType === null ||
+          apartment.genderType === filters.genderType) &&
         (filters.minRent === null || apartment.rent >= filters.minRent) &&
         (filters.maxRent === null || apartment.rent <= filters.maxRent) &&
         (filters.minSize === null || apartment.size >= filters.minSize) &&
@@ -52,7 +49,6 @@ const AdvancedFilter = () => {
     setFilteredApartments(filtered);
   };
 
-  // Call the filter function whenever filters change
   useEffect(() => {
     filterApartments();
   }, [filters, apartments]);
@@ -67,62 +63,83 @@ const AdvancedFilter = () => {
     <div style={{ width: '100%' }}>
       <Flex gap="large">
         {/* advanced filter */}
-        <Card title="Search Filter" style={{ flex: 1 }}>
-          <Flex vertical="column" gap="large">
-            <Flex gap="small">
-              <label>Rent Range:</label>
+        <Card title="Search Filter" style={{ width: '350px' }}>
+          <Form layout="vertical">
+            <Form.Item label="Gender Type:">
+              <Select
+                placeholder="Select gender"
+                onChange={(value) => handleFilterChange('genderType', value)}
+              >
+                <Option value="Male">Male</Option>
+                <Option value="Female">Female</Option>
+              </Select>
+            </Form.Item>
+
+            <Form.Item label="Rent Range:">
+              <Flex gap="large" align="center">
+                <InputNumber
+                  placeholder="Min"
+                  style={{ width: '100%' }}
+                  onChange={(value) => handleFilterChange('minRent', value)}
+                />
+                <span>to</span>
+                <InputNumber
+                  placeholder="Max"
+                  style={{ width: '100%' }}
+                  onChange={(value) => handleFilterChange('maxRent', value)}
+                />
+              </Flex>
+            </Form.Item>
+            <Form.Item label="Size Range:">
+              <Flex gap="large" align="center">
+                <InputNumber
+                  placeholder="Min"
+                  style={{ width: '100%' }}
+                  onChange={(value) => handleFilterChange('minSize', value)}
+                />
+                <span>to</span>
+                <InputNumber
+                  placeholder="Max"
+                  style={{ width: '100%' }}
+                  onChange={(value) => handleFilterChange('maxSize', value)}
+                />
+              </Flex>
+            </Form.Item>
+
+            <Form.Item label="Bedrooms:">
               <InputNumber
-                placeholder="Min"
-                onChange={(value) => handleFilterChange('minRent', value)}
-              />
-              <InputNumber
-                placeholder="Max"
-                onChange={(value) => handleFilterChange('maxRent', value)}
-              />
-            </Flex>
-            <Flex gap="small">
-              <label>Size Range:</label>
-              <InputNumber
-                placeholder="Min"
-                onChange={(value) => handleFilterChange('minSize', value)}
-              />
-              <InputNumber
-                placeholder="Max"
-                onChange={(value) => handleFilterChange('maxSize', value)}
-              />
-            </Flex>
-            <Flex gap="small">
-              <label>Bedrooms:</label>
-              <InputNumber
-                placeholder="Eg: 1, 2, 3"
+                placeholder="Eg: 1, 2, 3 . . ."
+                style={{ width: '100%' }}
                 onChange={(value) => handleFilterChange('bedrooms', value)}
               />
+            </Form.Item>
+
+            <Flex gap="large">
+              <Form.Item label="Furnished">
+                <Checkbox
+                  onChange={(e) =>
+                    handleFilterChange('furnished', e.target.checked)
+                  }
+                />
+              </Form.Item>
+
+              <Form.Item label="Parking">
+                <Checkbox
+                  onChange={(e) =>
+                    handleFilterChange('parking', e.target.checked)
+                  }
+                />
+              </Form.Item>
             </Flex>
-            <Flex gap="small">
-              <label>Furnished:</label>
-              <Checkbox
-                onChange={(e) =>
-                  handleFilterChange('furnished', e.target.checked)
-                }
-              />
-            </Flex>
-            <Flex gap="small">
-              <label>Parking:</label>
-              <Checkbox
-                onChange={(e) =>
-                  handleFilterChange('parking', e.target.checked)
-                }
-              />
-            </Flex>
-          </Flex>
+          </Form>
         </Card>
 
         {/* filtered list */}
-        <Card style={{ flex: 2 }}>
+        <Card style={{ flex: 1 }}>
           {isNoApartmentsFound ? (
             <Empty description="No Apartments Found" />
           ) : loading ? (
-            <Skeleton active />
+            <Empty description="Apartments List" />
           ) : (
             <>
               {filteredApartments.length > 0 ? (

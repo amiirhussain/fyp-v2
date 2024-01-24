@@ -51,7 +51,8 @@ const apartmentSchema = new mongoose.Schema(
       required: true,
     },
     imageUrls: {
-      type: [String],
+      type: String,
+      // type: [String],
       //   required: true,
     },
     furnished: {

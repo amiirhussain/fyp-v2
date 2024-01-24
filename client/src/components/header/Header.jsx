@@ -39,7 +39,7 @@ const Navbar = () => {
         </Col>
         <Col span={12}>
           <Menu
-            defaultSelectedKeys="home"
+            // defaultSelectedKeys="home"
             mode="horizontal"
             className="menu--list"
             items={menuItems}

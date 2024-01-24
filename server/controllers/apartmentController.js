@@ -5,24 +5,20 @@ import User from '../models/UserModel.js';
 // Create Apartment
 export const createApartment = async (req, res, next) => {
   try {
-    // Retrieve the user's email from the JWT token or your authentication system
     const userEmail = req.user.email;
 
-    // Find the user based on their email
     const user = await User.findOne({ email: userEmail });
 
-    // If the user does not exist, return an error response
     if (!user) {
       return res.status(404).json({ status: 'error', error: 'User not found' });
     }
 
-    // Extract the user's ID
     const userId = user._id;
 
-    // Create a new apartment with the user's ID and request data
     const newApartment = new Apartment({
-      user: userId, // Assign the user's ID
+      user: userId,
       type: req.body.type,
+      genderType: req.body.genderType,
       title: req.body.title,
       size: req.body.size,
       bedrooms: req.body.bedrooms,
@@ -35,18 +31,14 @@ export const createApartment = async (req, res, next) => {
       imageUrls: req.body.imageUrl,
     });
 
-    // Save the apartment to the database
     const savedApartment = await newApartment.save();
 
-    // Check if the apartment was successfully saved
     if (!savedApartment) {
       throw createError(500, 'Failed to save apartment');
     }
 
-    // Return a success response with the saved apartment data
     res.status(201).json(savedApartment);
   } catch (error) {
-    // Handle errors and pass them to the error handling middleware
     console.error('Error creating apartment:', error);
     next(error);
   }
@@ -76,6 +68,7 @@ export const updateApartment = async (req, res, next) => {
   try {
     const updatedFields = {
       type: req.body.type,
+      genderType: req.body.genderType,
       title: req.body.title,
       size: req.body.size,
       bedrooms: req.body.bedrooms,
@@ -85,7 +78,7 @@ export const updateApartment = async (req, res, next) => {
       parking: req.body.parking,
       distance: req.body.distance,
       rent: req.body.rent,
-      imageUrls: req.body.imageUrls,
+      imageUrls: req.body.imageUrl,
     };
 
     const updatedApartment = await Apartment.findByIdAndUpdate(
@@ -122,18 +115,14 @@ export const getApartment = async (req, res, next) => {
 // Get Apartments for Logged-In User
 export const getAllApartmentsByUser = async (req, res) => {
   try {
-    // Retrieve the user's email from the JWT token or your authentication system
     const userEmail = req.user.email;
 
-    // Find the user based on their email
     const user = await User.findOne({ email: userEmail });
 
-    // If the user does not exist, return an error response
     if (!user) {
       return res.status(404).json({ status: 'error', error: 'User not found' });
     }
 
-    // Extract the user's ID
     const userId = user._id;
 
     const userApartments = await Apartment.find({ user: userId });

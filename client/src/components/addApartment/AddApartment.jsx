@@ -1,16 +1,32 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Modal, Button, Form, Input, Select, Checkbox, message } from 'antd';
+import {
+  Modal,
+  Button,
+  Form,
+  Input,
+  Select,
+  Checkbox,
+  message,
+  Progress,
+  Flex,
+} from 'antd';
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from 'firebase/storage';
+import { app } from '../../firebase';
 import { ApartmentContext } from '../../contexts/ApartContext';
 import ApartmentList from '../apartmentList/ApartmentList';
 import ProfileProgress from '../profileProgress/ProfileProgress';
-import { UserDataProvider } from '../../contexts/UserDataContext';
 import getProfileProgress from '../../utils/getProfileProgress';
+import './addApartnent.css';
 
 const { Option } = Select;
 
 const AddApartment = () => {
   const { profileProgress } = getProfileProgress();
-
   const {
     apartments,
     loading,
@@ -25,6 +41,58 @@ const AddApartment = () => {
   const [editMode, setEditMode] = useState(false);
   const [editData, setEditData] = useState(null);
   const [form] = Form.useForm();
+
+  const [imageFile, setImageFile] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [imageFileUrl, setImageFileUrl] = useState(null);
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+    }
+  };
+
+  useEffect(() => {
+    if (imageFile) {
+      uploadImage();
+    }
+  }, [imageFile]);
+
+  const uploadImage = async () => {
+    const storage = getStorage(app);
+    const fileName = new Date().getTime() + imageFile.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, imageFile);
+
+    try {
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setUploadProgress(progress.toFixed(2));
+        },
+        (error) => {
+          console.error('Error uploading image:', error.message);
+          message.error('Could not upload image (File must be less than 2MB)');
+          setUploadProgress(0);
+          setImageFile(null);
+        },
+        async () => {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          setImageFileUrl(downloadURL);
+          setUploadProgress(100);
+          setImageFile(null);
+        },
+      );
+    } catch (error) {
+      console.error('Error uploading image:', error.message);
+      message.error(error.message);
+      setUploadProgress(0);
+      setImageFile(null);
+    }
+  };
 
   useEffect(() => {
     if (error) {
@@ -49,6 +117,7 @@ const AddApartment = () => {
 
   const handleSubmit = (values) => {
     try {
+      values.imageUrl = imageFileUrl;
       addApartment(values);
       handleSuccess();
     } catch (error) {
@@ -59,6 +128,7 @@ const AddApartment = () => {
   const handleEditSubmit = (values) => {
     try {
       if (editData) {
+        values.imageUrl = imageFileUrl;
         updateApartment(editData._id, values);
         handleSuccess();
       } else {
@@ -72,7 +142,7 @@ const AddApartment = () => {
   const handleDelete = (apartmentId) => {
     try {
       deleteApartment(apartmentId);
-      handleSuccess();
+      message.success('Appartment Deleted Successfully');
     } catch (error) {
       console.error('Error deleting apartment:', error);
     }
@@ -85,10 +155,7 @@ const AddApartment = () => {
     form.setFieldsValue({
       type: apartment.type,
       title: apartment.title,
-      imageUrl:
-        apartment.imageUrls && apartment.imageUrls.length > 0
-          ? apartment.imageUrls[0]
-          : '',
+      genderType: apartment.genderType,
       address: apartment.address,
       size: apartment.size,
       rent: apartment.rent,
@@ -175,6 +242,27 @@ const AddApartment = () => {
                     <Option value="Hostel">Hostel</Option>
                   </Select>
                 </Form.Item>
+
+                <Form.Item
+                  name="genderType"
+                  label="Gender Type"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please select the gender type',
+                    },
+                  ]}
+                >
+                  <Select
+                    size="large"
+                    value={'Select Gender Type'}
+                    placeholder="Select Gender Type"
+                    style={{ width: 180 }}
+                  >
+                    <Option value="Male">Male</Option>
+                    <Option value="Female">Female</Option>
+                  </Select>
+                </Form.Item>
                 <Form.Item
                   style={{ width: '100%' }}
                   name="title"
@@ -189,18 +277,44 @@ const AddApartment = () => {
                   <Input size="large" placeholder="Title" />
                 </Form.Item>
               </div>
-              <Form.Item
-                name="imageUrl"
-                label="Image Link"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input the Image Link',
-                  },
-                ]}
-              >
-                <Input size="large" placeholder="Image URL" />
-              </Form.Item>
+              <Flex gap="large" align="center">
+                <Form.Item
+                  name="imageFile"
+                  label="Upload Image"
+                  rules={[
+                    {
+                      required: !editMode,
+                      message: 'Please upload an image',
+                    },
+                  ]}
+                >
+                  <input
+                    className="upload-image"
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                </Form.Item>
+
+                {imageFile && (
+                  <div style={{ flex: 1, padding: '0 10px' }}>
+                    <Progress
+                      percent={uploadProgress}
+                      status={uploadProgress === 100 ? 'success' : 'active'}
+                    />
+                    <Button
+                      type="default"
+                      onClick={() => {
+                        setUploadProgress(0);
+                        setImageFile(null);
+                      }}
+                      style={{ marginTop: '8px' }}
+                    >
+                      Cancel Upload
+                    </Button>
+                  </div>
+                )}
+              </Flex>
 
               <Form.Item
                 name="address"

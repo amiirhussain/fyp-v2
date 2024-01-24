@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import createError from '../utils/error.js';
 import Token from '../models/token.js';
-// import sendMail from '../utils/sendMail.js';
 import {
   sendVerificationEmail,
   sendResetPasswordEmail,
@@ -144,8 +143,6 @@ export const GoogleAuth = async (req, res) => {
         },
         JWT_SECRET,
       );
-
-      console.log('User logged in successfully:', user);
 
       return res.json({
         status: 'ok',

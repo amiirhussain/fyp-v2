@@ -4,6 +4,8 @@ import { SiZerodha } from 'react-icons/si';
 import { FaBed, FaBath } from 'react-icons/fa';
 import useFetch from '../../hooks/useFetch';
 import Navbar from '../header/Header';
+import { Flex } from 'antd';
+import { FaLocationDot } from 'react-icons/fa6';
 
 const ApartmentDetail = () => {
   const { id } = useParams();
@@ -21,12 +23,18 @@ const ApartmentDetail = () => {
           <>
             <div className="title-header">
               <h1 className="apart-title">{apartmentData.title}</h1>
-              <span className="type">{apartmentData.type}</span>
+              <Flex gap="large" align="center" style={{ padding: '10px 0 ' }}>
+                <div className="genderType">{apartmentData.genderType}</div>
+                <div className="type">{apartmentData.type}</div>
+              </Flex>
             </div>
-            <p>{apartmentData.address}</p>
+            <span className="apartment-address">
+              <FaLocationDot className="icon" /> {apartmentData.address}
+            </span>
+
             <img
               className="apart-image"
-              src={apartmentData.imageUrls[0]}
+              src={apartmentData.imageUrls}
               alt={apartmentData.title}
             />
             <span className="apart-avail">

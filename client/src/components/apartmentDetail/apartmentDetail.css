@@ -17,6 +17,37 @@
   border-radius: 50px;
   border: 1px solid gray;
 }
+
+.apartment--detail .genderType {
+  color: rgb(41, 205, 208);
+  border: 1px solid rgb(41, 205, 208);
+  border-radius: 80px;
+  padding: 2px 20px;
+  font-size: 12px;
+}
+.apartment--detail .type {
+  color: gray;
+  border: 1px solid gray;
+  border-radius: 80px;
+  padding: 2px 20px;
+  font-size: 12px;
+}
+.apartment--detail .apartment-address {
+  margin-top: 10px;
+  background: #e6f7ff;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  width: 300px;
+  font-size: 12px;
+  gap: 10px;
+  color: gray;
+  padding: 8px 15px;
+}
+.apartment--detail .apartment-address .icon {
+  color: #1677ff;
+  font-size: 18px;
+}
 .apartment--detail .apart-image {
   border-radius: 20px;
   width: 100%;

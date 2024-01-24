@@ -1,9 +1,8 @@
-import { List, Space, Button, Popconfirm, message } from 'antd';
+import { List, Space, Button, Popconfirm, message, Flex } from 'antd';
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 import { SiZerodha } from 'react-icons/si';
 import { FaLocationDot, FaBath, FaBed } from 'react-icons/fa6';
 import './apartmentList.css';
-// import '../styles/apartList.css';
 
 const ApartmentList = ({ apartments, handleEdit, handleDelete }) => {
   const handleDeleteConfirm = (apartmentId) => {
@@ -39,14 +38,17 @@ const ApartmentList = ({ apartments, handleEdit, handleDelete }) => {
               </Popconfirm>
             </div>
             <div className="list--image">
-              <img src={apartment.imageUrls[0]} alt={apartment.title} />
+              <img src={apartment.imageUrls} alt={apartment.title} />
             </div>
             <div className="list-detail">
               <div className="list--header">
                 <h2 className="list-title">{apartment.title}</h2>
               </div>
 
-              <div className="list-type">{apartment.type}</div>
+              <Flex gap="large" align="center" style={{ padding: '10px 0 ' }}>
+                <div className="list-genderType">{apartment.genderType}</div>
+                <div className="list-type">{apartment.type}</div>
+              </Flex>
               <span className="apartment-address">
                 <FaLocationDot className="icon" /> {apartment.address}
               </span>

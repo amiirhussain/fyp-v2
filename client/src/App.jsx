@@ -17,6 +17,9 @@ import MatchUser from './components/matchUser/MatchUser';
 import EmailVerify from './auth/EmailVerify';
 import ForgotPassword from './auth/ForgotPassword';
 import ResetPassword from './auth/ResetPassword';
+import About from './pages/about/About';
+import Contact from './pages/contact/Contact';
+import Services from './pages/services/Services';
 
 const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -29,6 +32,9 @@ const App = () => {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/services" element={<Services />} />
         <Route
           path="/dashboard"
           element={<Dashboard setUserLoggedIn={setUserLoggedIn} />}
