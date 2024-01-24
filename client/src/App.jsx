@@ -20,6 +20,7 @@ import ResetPassword from './auth/ResetPassword';
 import About from './pages/about/About';
 import Contact from './pages/contact/Contact';
 import Services from './pages/services/Services';
+import Setting from './components/setting/Setting';
 
 const App = () => {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
@@ -61,7 +62,15 @@ const App = () => {
           />
           <Route path="match-user" element={<MatchUser />} />
           <Route path="chats" element={<ComingSoon pageTitle="Chats" />} />
-          <Route path="setting" element={<ComingSoon pageTitle="Settings" />} />
+          <Route
+            path="setting"
+            element={
+              <UserDataProvider>
+                {' '}
+                <Setting />
+              </UserDataProvider>
+            }
+          />
         </Route>
         <Route
           path="/login"

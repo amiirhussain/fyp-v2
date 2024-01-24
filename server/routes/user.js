@@ -20,7 +20,7 @@ router.put('/:id', updateUser);
 //update password
 router.put('/reset-password/:id', updatePassword);
 //Delete
-router.delete('/:id', deleteUser);
+router.delete('/delete/:id', authenticateToken, deleteUser);
 //Get
 router.get('/single-user', authenticateToken, getUser);
 //Get All
